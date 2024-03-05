@@ -1,0 +1,20 @@
+.appBackground {
+  height: 100vh;
+  /* Full height of the viewport */
+  width: 100vw;
+  /* Full width of the viewport */
+  background: url('https://images.unsplash.com/photo-1626148749358-5b3b3f45b41a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* Try contain if cover is too zoomed */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.playBtn {
+  background-color: grey;
+}
