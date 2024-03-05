@@ -1,3 +1,12 @@
 .title {
     color: aqua;
 }
+
+.main-content {
+    height: 500px;
+    width: 500px;
+    background: url('https://images.2moons.ai/prompt/slices/1/watermarked/christmas_waldo_image_ZkdVu.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
