@@ -39,14 +39,23 @@ function GamePage() {
         }
 
         setClickPosition({x: event.clientX-gameAreaRect.left, y: event.clientY-gameAreaRect.top});
-        // console.log(`clickPosition.x clickPosition.y = ${clickPosition.x}, ${clickPosition.y}`);
-        // console.log(`Adjusted x: ${adjustedX}, Adjusted y: ${adjustedY}`);
+        
+        console.log(`Adjusted x: ${adjustedX}, Adjusted y: ${adjustedY}`);
         setShowPopup(true);
     }
 
     function handleConfirm(event) {
         event.stopPropagation();
-        setShowPopup(false);
+
+        fetch('http://localhost:3000')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            setShowPopup(false);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
     }
 
 
