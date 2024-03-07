@@ -3,10 +3,10 @@
 }
 
 .main-content {
-    height: 500px;
-    width: 500px;
-    background: url('https://images.2moons.ai/prompt/slices/1/watermarked/christmas_waldo_image_ZkdVu.png');
-    background-position: center;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    background-image: url('../assets/images/waldo.jpg');
+    background-size: contain; /* Keeps aspect ratio and makes sure the image is fully visible */
+    background-position: center; /* Centers the image in the div */
     background-repeat: no-repeat;
-    background-size: contain;
 }
