@@ -4,10 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
-
+const connectDB = require('./config/db');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+require('dotenv').config(); //must be imported 
 var app = express();
 
 // view engine setup
@@ -16,6 +16,8 @@ app.set('view engine', 'jade');
 
 app.use(cors());
 app.use(express.json());
+
+connectDB();
 
 app.use(logger('dev'));
 app.use(express.json());
