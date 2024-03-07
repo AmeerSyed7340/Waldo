@@ -5,8 +5,11 @@
 .main-content {
     width: 100vw; /* Full viewport width */
     height: 100vh; /* Full viewport height */
-    background-image: url('../assets/images/waldo.jpg');
+    /* background-image: url('../assets/images/waldo.jpg'); */
+    background-image: url('../assets/images/waldo_fb.jpg');
     background-size: contain; /* Keeps aspect ratio and makes sure the image is fully visible */
     background-position: center; /* Centers the image in the div */
     background-repeat: no-repeat;
+
+    position: relative;
 }
