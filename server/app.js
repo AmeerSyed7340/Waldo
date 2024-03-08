@@ -8,17 +8,19 @@ const connectDB = require('./config/db');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 require('dotenv').config(); //must be imported 
-const gameRouter = require('./routes/game');
-
 
 var app = express();
+
+var expressWs = require('express-ws')(app);
+const gameRouter = require('./routes/game');
+const gameWsRouter = require('./routes/ws');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(cors());
-app.use(express.json());
+
 
 connectDB();
 
@@ -30,7 +32,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/game', gameRouter)
+app.use('/game', gameRouter);
+app.use('/ws', gameWsRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
