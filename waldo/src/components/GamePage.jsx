@@ -3,9 +3,11 @@ import PopUp from './PopUp';
 import React, { useState } from 'react';
 
 function GamePage() {
-    const [clickPosition, setClickPosition] = useState({x: 0, y: 0});
+    const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
     const [showPopup, setShowPopup] = useState(false);
     const gameAreaRef = React.useRef(null);
+    const [adjustedPosition, setAdjustedPosition] = useState({ x: 0, y: 0 });
+
 
     function handleClick(event) {
         const gameAreaRect = event.currentTarget.getBoundingClientRect();
@@ -37,25 +39,39 @@ function GamePage() {
             adjustedX = (event.clientX - gameAreaRect.left) * (originalImageWidth / displayWidth);
             adjustedY = (event.clientY - gameAreaRect.top - yOffset) * (originalImageHeight / displayHeight);
         }
+        setAdjustedPosition({x: adjustedX, y: adjustedY});
+        setClickPosition({ x: event.clientX - gameAreaRect.left, y: event.clientY - gameAreaRect.top });
 
-        setClickPosition({x: event.clientX-gameAreaRect.left, y: event.clientY-gameAreaRect.top});
-        
         console.log(`Adjusted x: ${adjustedX}, Adjusted y: ${adjustedY}`);
+
         setShowPopup(true);
     }
 
     function handleConfirm(event) {
         event.stopPropagation();
+        console.log(`inside confirm Adjusted x: ${adjustedPosition.x}, Adjusted y: ${adjustedPosition.y}`);
 
-        fetch('http://localhost:3000')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            setShowPopup(false);
+        //send in coodinates
+        const dataToSend = { x: adjustedPosition.x, y: adjustedPosition.y };
+
+        fetch('http://localhost:3000/game', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSend),
         })
-        .catch((err) => {
-            console.error(err);
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if(data.correct){
+                    console.log("true")
+                }
+                setShowPopup(false);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     }
 
 
@@ -68,7 +84,7 @@ function GamePage() {
                         setShowPopup(false)
                     }
                     }
-                    clickPosition = {clickPosition}></PopUp>
+                        clickPosition={clickPosition}></PopUp>
                 )
             }
         </div>
