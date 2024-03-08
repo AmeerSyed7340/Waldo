@@ -1,6 +1,7 @@
 import '../styles/GamePage.css'
 import PopUp from './PopUp';
 import React, { useState } from 'react';
+import Timer from './Timer'; // Import the Timer component
 
 function GamePage() {
     const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
@@ -39,7 +40,7 @@ function GamePage() {
             adjustedX = (event.clientX - gameAreaRect.left) * (originalImageWidth / displayWidth);
             adjustedY = (event.clientY - gameAreaRect.top - yOffset) * (originalImageHeight / displayHeight);
         }
-        setAdjustedPosition({x: adjustedX, y: adjustedY});
+        setAdjustedPosition({ x: adjustedX, y: adjustedY });
         setClickPosition({ x: event.clientX - gameAreaRect.left, y: event.clientY - gameAreaRect.top });
 
         console.log(`Adjusted x: ${adjustedX}, Adjusted y: ${adjustedY}`);
@@ -64,7 +65,7 @@ function GamePage() {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                if(data.correct){
+                if (data.correct) {
                     console.log("true")
                 }
                 setShowPopup(false);
@@ -76,18 +77,22 @@ function GamePage() {
 
 
     return (
-        <div className="main-content" ref={gameAreaRef} onClick={handleClick}>
-            {
-                showPopup && (
-                    <PopUp onConfirm={handleConfirm} onClose={(event) => {
-                        event.stopPropagation();
-                        setShowPopup(false)
-                    }
-                    }
-                        clickPosition={clickPosition}></PopUp>
-                )
-            }
-        </div>
+        <>
+            {/* Include the Timer component, pass the WebSocket URL */}
+            < Timer wsUrl="ws://localhost:3000/ws/timer" />
+            <div className="main-content" ref={gameAreaRef} onClick={handleClick}>
+                {
+                    showPopup && (
+                        <PopUp onConfirm={handleConfirm} onClose={(event) => {
+                            event.stopPropagation();
+                            setShowPopup(false)
+                        }
+                        }
+                            clickPosition={clickPosition}></PopUp>
+                    )
+                }
+            </div>
+        </>
     )
 }
 
