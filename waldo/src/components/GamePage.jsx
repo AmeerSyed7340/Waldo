@@ -86,8 +86,35 @@ function GamePage() {
             .then(data => {
                 console.log(data);
                 if (data.correct) {
-                    console.log("Coordinates are correct. Stopping timer.")
+                    //save time 
+                    const finalTime = data.time;
+
+                    console.log(`Coordinates are correct. Stopping timer. ${data.time}`)
                     ws.current.send(JSON.stringify({ stopTimer: true })) ; // Send message to stop the timer
+                    
+                    //Prompt the user for their name
+                    const userName = prompt("Enter name of winner");
+
+                    if(userName){
+                        const userData = {
+                            name: userName,
+                            time: finalTime
+                        }
+
+                        //make api call to backend with winners info
+                        fetch('http://localhost:3000/register', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify(userData)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(`User registered succefully: ${data}`)
+                        })
+                        .catch((error) => {
+                            console.error(`Error registering the user: ${error}`)
+                        })
+                    }
                 }
                 setShowPopup(false);
             })
