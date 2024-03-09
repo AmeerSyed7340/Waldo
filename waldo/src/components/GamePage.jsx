@@ -1,8 +1,12 @@
 import '../styles/GamePage.css'
 import PopUp from './PopUp';
 import React, { useState, useEffect, useRef } from 'react';
+import{useNavigate} from 'react-router-dom';
 
 function GamePage() {
+    //to navigate to different page
+    const navigate = useNavigate();
+
     const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
     const [showPopup, setShowPopup] = useState(false);
     const gameAreaRef = React.useRef(null);
@@ -69,6 +73,8 @@ function GamePage() {
     }
 
     function handleConfirm(event) {
+        
+
         event.stopPropagation();
         console.log(`inside confirm Adjusted x: ${adjustedPosition.x}, Adjusted y: ${adjustedPosition.y}`);
 
@@ -86,9 +92,6 @@ function GamePage() {
             .then(data => {
                 console.log(data);
                 if (data.correct) {
-                    
-                    
-
                     console.log(`Coordinates are correct. Stopping timer. ${data.time}`)
                     ws.current.send(JSON.stringify({ stopTimer: true })) ; // Send message to stop the timer
                     
@@ -109,7 +112,9 @@ function GamePage() {
                         })
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data)
+                            //console.log(data);
+                            navigate('/leaderboard')
+
                         })
                         .catch((error) => {
                             console.error(`Error registering the user: ${error}`)

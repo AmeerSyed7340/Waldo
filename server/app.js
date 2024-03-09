@@ -16,6 +16,7 @@ require('dotenv').config(); //must be imported
 const gameRouter = require('./routes/game');
 const gameWsRouter = require('./routes/ws');
 const registerRouter = require('./routes/register');
+const leaderboardRouter = require('./routes/leaderboard');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,6 +38,7 @@ app.use('/users', usersRouter);
 app.use('/game', gameRouter);
 app.use('/ws', gameWsRouter);
 app.use('/register', registerRouter);
+app.use('/leaderboard', leaderboardRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
