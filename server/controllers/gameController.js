@@ -24,7 +24,3 @@ function checkIfCoordinatesMatch(userCoords, correctCoords) {
         Math.abs(userCoords.y - correctCoords.y) <= marginOfError
     );
 }//helper function to compare codes
-
-exports.test = asyncHandler(async (req, res, next) => {
-    res.json({ Message: 'Inside controller now' });
-})

@@ -1,5 +1,8 @@
 var createError = require('http-errors');
 var express = require('express');
+var app = express();
+var expressWs = require('express-ws')(app);
+
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -9,9 +12,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 require('dotenv').config(); //must be imported 
 
-var app = express();
 
-var expressWs = require('express-ws')(app);
 const gameRouter = require('./routes/game');
 const gameWsRouter = require('./routes/ws');
 

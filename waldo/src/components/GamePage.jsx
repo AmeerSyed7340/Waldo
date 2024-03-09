@@ -1,14 +1,34 @@
 import '../styles/GamePage.css'
 import PopUp from './PopUp';
-import React, { useState } from 'react';
-import Timer from './Timer'; // Import the Timer component
+import React, { useState, useEffect, useRef } from 'react';
 
 function GamePage() {
     const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 });
     const [showPopup, setShowPopup] = useState(false);
     const gameAreaRef = React.useRef(null);
     const [adjustedPosition, setAdjustedPosition] = useState({ x: 0, y: 0 });
+    const [time, setTime] = useState(0);
+    const ws = useRef(null);
 
+    useEffect(() => {
+        // Initialize WebSocket connection
+        ws.current = new WebSocket('ws://localhost:3000/ws/timer');
+
+        ws.current.onopen = () => console.log('WebSocket connected');
+        ws.current.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            setTime(data.timer); // Update time based on messages from the server
+        };
+        ws.current.onerror = (error) => console.log('WebSocket error: ', error);
+        ws.current.onclose = () => console.log('WebSocket disconnected');
+
+        // Clean up the WebSocket connection when the component unmounts
+        return () => {
+            if(ws.current) {
+                ws.current.close();
+            }
+        };
+    }, []);
 
     function handleClick(event) {
         const gameAreaRect = event.currentTarget.getBoundingClientRect();
@@ -66,7 +86,8 @@ function GamePage() {
             .then(data => {
                 console.log(data);
                 if (data.correct) {
-                    console.log("true")
+                    console.log("Coordinates are correct. Stopping timer.")
+                    ws.current.send(JSON.stringify({ stopTimer: true })) ; // Send message to stop the timer
                 }
                 setShowPopup(false);
             })
@@ -78,8 +99,7 @@ function GamePage() {
 
     return (
         <>
-            {/* Include the Timer component, pass the WebSocket URL */}
-            < Timer wsUrl="ws://localhost:3000/ws/timer" />
+            <div className='timer'>Timer: {time}</div>
             <div className="main-content" ref={gameAreaRef} onClick={handleClick}>
                 {
                     showPopup && (
