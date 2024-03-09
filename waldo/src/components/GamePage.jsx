@@ -86,8 +86,8 @@ function GamePage() {
             .then(data => {
                 console.log(data);
                 if (data.correct) {
-                    //save time 
-                    const finalTime = data.time;
+                    
+                    
 
                     console.log(`Coordinates are correct. Stopping timer. ${data.time}`)
                     ws.current.send(JSON.stringify({ stopTimer: true })) ; // Send message to stop the timer
@@ -97,8 +97,8 @@ function GamePage() {
 
                     if(userName){
                         const userData = {
-                            name: userName,
-                            time: finalTime
+                            username: userName,
+                            time: time
                         }
 
                         //make api call to backend with winners info
@@ -109,7 +109,7 @@ function GamePage() {
                         })
                         .then(response => response.json())
                         .then(data => {
-                            console.log(`User registered succefully: ${data}`)
+                            console.log(data)
                         })
                         .catch((error) => {
                             console.error(`Error registering the user: ${error}`)
